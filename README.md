@@ -43,6 +43,21 @@ npm install
 npm run dev
 ```
 
+## Run with Docker (same containers as GCP)
+
+Needs Docker Desktop. Test this before deploying: it builds the exact image Cloud Run runs.
+
+```powershell
+# App container only, using Ollama installed on your PC (fastest)
+docker compose up --build
+
+# App + the llm/ model container, exactly like GCP (first build downloads the model into the image)
+"OLLAMA_URL=http://llm:8080" | Out-File -Encoding utf8 .env
+docker compose --profile llm up --build
+```
+
+Open http://localhost:8080. The frontend and API are served by the same container, as on Cloud Run.
+
 ## Deploy to GCP (Cloud Run only)
 
 Two Cloud Run services: **health-lens-llm** (private, GPU, our model) and **health-lens**

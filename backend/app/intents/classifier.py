@@ -1,5 +1,7 @@
 """Works out WHAT the customer is asking. Input is redacted text; output is an intent label.
 
+Primary: semantic router (app/intents/router.py) using our own embedding model.
+
 The model never sees policy data — only the (redacted) question.
 """
 
@@ -7,7 +9,8 @@ import re
 from dataclasses import dataclass
 from typing import Literal
 
-from app.llm.ollama import LLMUnavailable, chat_json
+from app.intents.router import route
+from app.llm.ollama import LLMUnavailable
 
 Intent = Literal[
     "deductible_status",  # personal: how much deductible / out-of-pocket is used or left
@@ -34,45 +37,16 @@ PERSONAL_INTENTS = {
 class Classification:
     intent: Intent
     service: str | None = None  # for coverage_check, e.g. "MRI"
-    source: Literal["llm", "keywords"] = "llm"
-
-
-_SYSTEM = """Classify a health insurance member's chat message. Reply with JSON only.
-
-Intents:
-- deductible_status: how much of THEIR deductible or out-of-pocket maximum is used or left
-- coverage_check: whether a specific service/treatment is covered for THEM or what it costs them
-  (set "service" to the service name, e.g. "MRI", "therapy", "physical therapy")
-- claim_status: THEIR claims, bills, what they owe for a past visit
-- premium_due: THEIR monthly premium, payment, due date, autopay
-- policy_summary: THEIR plan name, policy status, or a general overview of their policy
-- general_question: how insurance or plan rules work in general (e.g. what is prior approval,
-  do I need a referral, what counts toward a deductible, how do appeals work)
-- handoff: wants to talk to a human, agent, or person
-- greeting: hello, thanks, or asking what you can do
-- unknown: anything else
-
-Personal details are replaced with placeholders like [NAME] or [DATE]; ignore them."""
-
-_SCHEMA = {
-    "type": "object",
-    "properties": {
-        "intent": {"type": "string", "enum": list(INTENTS)},
-        "service": {"type": ["string", "null"]},
-    },
-    "required": ["intent", "service"],
-}
+    source: Literal["embeddings", "keywords"] = "embeddings"
 
 
 async def classify(redacted_text: str) -> Classification:
+    """Semantic router (our embedding model) first; keyword rules if the model server is down."""
     try:
-        data = await chat_json(_SYSTEM, redacted_text, _SCHEMA)
-        intent = data.get("intent")
-        if intent in INTENTS:
-            return Classification(intent, data.get("service") or None, "llm")
+        intent, _score, _ = await route(redacted_text)
+        return Classification(intent, None, "embeddings")  # type: ignore[arg-type]
     except LLMUnavailable:
-        pass
-    return classify_keywords(redacted_text)
+        return classify_keywords(redacted_text)
 
 
 # --- Fallback when the model is unavailable (also keeps tests model-free) ---

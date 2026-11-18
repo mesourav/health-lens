@@ -1,15 +1,23 @@
-"""Answers a general question from plan documents (Retrieval-Augmented Generation)."""
+"""Answers a general question from plan documents (Retrieval-Augmented Generation).
 
+Retrieval decides IF we can answer (similarity score). The chat model only rewrites the
+retrieved text into a friendly reply. If its reply looks unusable, we show the passage itself,
+so the answer is always grounded in our documents.
+"""
+
+import re
 from dataclasses import dataclass
 
 from app.llm.ollama import LLMUnavailable, chat
 from app.rag.index import search
 
-_SYSTEM = """You are a health insurance help assistant.
-Answer the member's question using ONLY the plan document excerpts provided.
-If the excerpts do not contain the answer, reply exactly: NOT_FOUND
-Rules: 2-4 short, friendly sentences. Plain language. No markdown, no lists.
-Do not invent numbers, prices or rules that are not in the excerpts."""
+_SYSTEM = """You are a friendly health insurance help assistant.
+Answer the member's question using the plan document excerpts provided.
+Write 2 to 4 short sentences in plain language. Include the specific details from the excerpts
+that answer the question (timeframes, what is covered, what to do next).
+No markdown, no lists, no greetings. Do not add facts that are not in the excerpts."""
+
+_MIN_ANSWER_CHARS = 80  # shorter than this = the small model dropped the details
 
 
 @dataclass
@@ -21,18 +29,21 @@ class RagAnswer:
 async def answer_general(question: str) -> RagAnswer | None:
     """`question` must already be redacted. Returns None when the docs don't cover it."""
     results, min_score = await search(question)
-    relevant = [chunk for score, chunk in results if score >= min_score]
-    if not relevant:
+    if not results or results[0][0] < min_score:
         return None
+    # Keep only sections nearly as relevant as the best one, so the AI isn't fed loosely related text.
+    best_score = results[0][0]
+    relevant = [chunk for score, chunk in results if score >= min_score and score >= best_score - 0.06]
+    best = relevant[0]
+    passage_answer = RagAnswer(best.text, [best.source])
 
-    context = "\n\n".join(f"[{c.source}]\n{c.text}" for c in relevant)
+    context = "\n\n".join(f"[{c.section}]\n{c.text}" for c in relevant)
     try:
         text = await chat(_SYSTEM, f"Plan document excerpts:\n{context}\n\nQuestion: {question}")
     except LLMUnavailable:
-        # No model available: show the best-matching passage as-is.
-        best = relevant[0]
-        return RagAnswer(best.text, [best.source])
+        return passage_answer
 
-    if "NOT_FOUND" in text:
-        return None
-    return RagAnswer(text, list(dict.fromkeys(c.source for c in relevant[:2])))
+    text = re.sub(r"\s+", " ", text).strip()
+    if len(text) < _MIN_ANSWER_CHARS or "NOT_FOUND" in text or "excerpt" in text.lower():
+        return passage_answer
+    return RagAnswer(text, [c.source for c in relevant[:2]])

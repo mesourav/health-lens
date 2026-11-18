@@ -55,7 +55,7 @@ def coverage_check(policy: Policy, service: str | None, original_text: str | Non
         if entry["prior_approval"]:
             text += " You'll need prior approval first; your doctor's office usually handles that."
     else:
-        text = f"{entry['label']} isn't covered on your {plan['name']} plan. {entry['cost']}."
+        text = f"No, your {plan['name']} plan doesn't cover {entry['label'].lower()}. {entry['cost']}."
     replies = [R.PRIOR] if entry["prior_approval"] else []
     return _bot(text, [*replies, R.DEDUCTIBLE, R.PERSON])
 

@@ -103,7 +103,7 @@ def _keyword_search(question: str, chunks: list[Chunk], k: int) -> list[tuple[fl
 
 
 # Below these scores, we say "I don't know" instead of guessing.
-EMBED_MIN_SCORE = 0.55
+EMBED_MIN_SCORE = 0.62  # measured: relevant ≈ 0.66–0.83, unrelated ≈ 0.45–0.59
 KEYWORD_MIN_SCORE = 0.5
 
 

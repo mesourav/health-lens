@@ -1,0 +1,31 @@
+# Local run of the same containers we deploy to Cloud Run.
+#
+#   docker compose up --build                 → app only; uses Ollama installed on your PC
+#   docker compose --profile llm up --build   → app + the llm/ container (exactly like GCP)
+#
+# Open http://localhost:8080
+
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      # Default: Ollama running on the host machine (Windows/Mac Docker Desktop).
+      # With --profile llm, set OLLAMA_URL=http://llm:8080 (see .env.docker.example).
+      OLLAMA_URL: ${OLLAMA_URL:-http://host.docker.internal:11434}
+      CHAT_MODEL: ${CHAT_MODEL:-gemma3:1b}
+      SESSION_SECRET: ${SESSION_SECRET:-local-docker-only-not-secret}
+      # Local Docker is plain http, so the cookie must not be "Secure" here.
+      SESSION_HTTPS_ONLY: "false"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  llm:
+    profiles: ["llm"]
+    build:
+      context: ./llm
+      args:
+        CHAT_MODEL: ${CHAT_MODEL:-gemma3:1b}
+    ports:
+      - "11435:8080" # optional: reach it from the host for debugging
