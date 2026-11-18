@@ -6,7 +6,7 @@ This is the core privacy idea: real values are filled in by code, after (and wit
 from datetime import date, timedelta
 
 from app.intents import replies as R
-from app.policy.repository import Policy, find_coverage, get_plan
+from app.policy.repository import Policy, find_coverage, get_claim_process, get_plan
 from app.schemas.chat import BotStep, ChatTurn
 
 
@@ -77,7 +77,7 @@ def claim_status(policy: Policy) -> ChatTurn:
         if c.get("ex_gratia"):
             status += f", but we made an ex gratia (goodwill) payment of {_money(c['ex_gratia'])}"
         lines.append(f"• {_date(c['date'])}: {c['service']} at {c['provider']}. {status}, {owe}.")
-    return _bot("Here are your most recent claims:\n" + "\n".join(lines), [R.CLAIMS_HOWTO, R.MORE, R.PERSON])
+    return _bot("Here are your most recent claims:\n" + "\n".join(lines), [R.RAISE_CLAIM, R.CLAIMS_HOWTO, R.PERSON])
 
 
 def premium_due(policy: Policy) -> ChatTurn:
@@ -119,6 +119,35 @@ def riders(policy: Policy) -> ChatTurn:
     listed = names[0] if len(names) == 1 else ", ".join(names[:-1]) + " and " + names[-1]
     noun = "rider" if len(items) == 1 else "riders"
     return _bot(f"You have {len(items)} {noun} (add-ons) on your policy: {listed}.")
+
+
+def raise_claim(question: str | None, policy: Policy | None) -> ChatTurn:
+    """Claim-filing steps, word for word from policies.json. Works before login too."""
+    proc = get_claim_process()
+    q = (question or "").lower()
+    want_cashless = "cashless" in q or "in-network" in q
+    want_reimbursement = "reimburs" in q or "out-of-network" in q or "out of network" in q or "paid" in q
+    if not (want_cashless or want_reimbursement):
+        want_cashless = want_reimbursement = True
+
+    def numbered(steps: list[str], **values) -> str:
+        return "\n".join(f"{i}. {s.format(**values)}" for i, s in enumerate(steps, 1))
+
+    parts = []
+    if want_cashless and want_reimbursement:
+        parts.append("There are two ways to raise a claim.")
+    if want_cashless:
+        c = proc["cashless"]
+        parts.append(f"Cashless claim ({c['when']}):\n{numbered(c['steps'])}")
+    if want_reimbursement:
+        r = proc["reimbursement"]
+        docs = "\n".join(f"• {d}" for d in r["documents"])
+        steps = numbered(r["steps"], deadline_days=r["deadline_days"])
+        parts.append(f"Reimbursement claim ({r['when']}):\n{steps}\nDocuments you need:\n{docs}")
+    if policy:
+        parts.append(f"Quote your policy number {policy['policy_number']} on any claim.")
+    parts.append(f"Need help? Call our claims team at {proc['claims_phone']}.")
+    return _bot("\n\n".join(parts), [R.CLAIMS, R.PERSON] if policy else [R.PERSON])
 
 
 def waiting_periods(policy: Policy) -> ChatTurn:

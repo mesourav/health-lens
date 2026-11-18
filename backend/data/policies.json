@@ -1,5 +1,35 @@
 {
   "_comment": "FAKE demo data for the prototype. Never put real customer data in this repo.",
+  "claim_process": {
+    "_comment": "Same for every member, so stored once. Sent word for word by tools.raise_claim (no AI).",
+    "claims_phone": "1-800-555-0142",
+    "cashless": {
+      "when": "in-network hospital or doctor",
+      "steps": [
+        "Show your member ID card at the front desk of the in-network hospital or doctor.",
+        "For planned surgery or a hospital stay, make sure prior approval is done first. Your doctor's office usually requests it.",
+        "The hospital or doctor sends the claim to us directly. You only pay your copay or coinsurance.",
+        "Track it by asking me \"show my claims\" or in the member portal."
+      ]
+    },
+    "reimbursement": {
+      "when": "out-of-network care, or you paid the full bill yourself",
+      "deadline_days": 90,
+      "steps": [
+        "Pay the provider and ask for an itemized bill and a payment receipt.",
+        "Open the member portal and go to Claims > Submit a claim.",
+        "Fill in the claim form and upload your documents (listed below).",
+        "Submit within {deadline_days} days of the date of care.",
+        "We decide within 14 days and pay the covered amount to your bank account."
+      ],
+      "documents": [
+        "Itemized bill",
+        "Payment receipt",
+        "Doctor's prescription or referral, if you have one",
+        "Discharge summary, for hospital stays"
+      ]
+    }
+  },
   "policies": [
     {
       "_scenario": "Mid-year: deductible partly used, one claim still in review, autopay on",

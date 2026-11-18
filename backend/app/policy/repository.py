@@ -42,6 +42,11 @@ def get_policy(policy_id: str) -> Policy:
     return policy
 
 
+def get_claim_process() -> dict[str, Any]:
+    """How to raise a claim. Shared by all members (no personal data)."""
+    return _load("policies.json")["claim_process"]
+
+
 def get_plan(plan_id: str) -> Plan:
     return _load("plans.json")["plans"][plan_id]
 

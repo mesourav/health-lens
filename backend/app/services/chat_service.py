@@ -57,6 +57,7 @@ _TAP_TO_INTENT = {
     "summary": Classification("policy_summary"),
     "mri": Classification("coverage_check", "MRI"),
     "therapy": Classification("coverage_check", "therapy"),
+    "raise_claim": Classification("raise_claim"),
 }
 
 
@@ -156,6 +157,9 @@ async def _dispatch(c: Classification, session: Session, original_text: str | No
                 return turn
             # Service not in our coverage table → maybe the plan documents mention it.
 
+    if c.intent == "raise_claim":
+        policy = get_policy(session["policy_id"]) if _is_authed(session) else None
+        return tools.raise_claim(original_text, policy)
     if c.intent == "handoff":
         return _handoff_flow("handoff", session)  # type: ignore[return-value]
     if c.intent == "greeting":

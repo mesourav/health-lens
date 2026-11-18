@@ -109,3 +109,18 @@ def test_jargon_definition_needs_no_login(client: TestClient) -> None:
     text = text_of(send(client, text="What is a rider?"))
     assert "Insurance Terms Explained" in text
     assert "policy number" not in text
+
+
+def test_raise_claim_steps_before_login(client: TestClient) -> None:
+    text = text_of(send(client, text="How do I raise a claim?"))
+    assert "Cashless claim" in text and "Reimbursement claim" in text
+    assert "Submit within 90 days of the date of care." in text
+    assert "policy number HL-" not in text  # nothing personal before login
+
+
+def test_raise_claim_reimbursement_only_when_logged_in(client: TestClient) -> None:
+    login(client)
+    text = text_of(send(client, text="how do I get reimbursed for a bill I paid?"))
+    assert "Reimbursement claim" in text and "Cashless claim" not in text
+    assert "Itemized bill" in text
+    assert "Quote your policy number HL-100234" in text

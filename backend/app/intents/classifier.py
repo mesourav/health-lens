@@ -20,6 +20,7 @@ Intent = Literal[
     "policy_summary",  # personal: my plan name, status, overview
     "riders",  # personal: which riders / add-ons I have
     "waiting_period",  # personal: my waiting periods and when they end
+    "raise_claim",  # how to file a claim: fixed steps from policies.json, no login needed
     "general_question",  # general: how insurance/plan rules work (answered from docs via RAG)
     "handoff",  # wants a human
     "greeting",  # hi / thanks / menu
@@ -59,6 +60,14 @@ _RULES: list[tuple[re.Pattern[str], Intent]] = [
     # "my riders" is personal; "what is a rider" falls through to the general rules below.
     (re.compile(r"\b(my|i have|do i have|have i)\b.*\b(riders?|add-?ons?)\b", re.I), "riders"),
     (re.compile(r"\b(my|i have|do i have|am i)\b.*\bwaiting periods?\b", re.I), "waiting_period"),
+    (
+        re.compile(
+            r"\b(raise|file|submit|make|lodge)\b.*\bclaim"
+            r"|\bclaim (form|process|steps)\b|\breimburse",
+            re.I,
+        ),
+        "raise_claim",
+    ),
     (re.compile(r"\b(referral|prior|approval|network|appeal|emergency|telehealth)", re.I), "general_question"),
     (re.compile(r"\b(deductible|out[- ]of[- ]pocket|left|remaining)\b", re.I), "deductible_status"),
     (re.compile(r"\b(claims?|bill|billed|owe|eob)\b", re.I), "claim_status"),

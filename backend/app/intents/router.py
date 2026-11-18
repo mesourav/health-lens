@@ -67,6 +67,16 @@ EXAMPLES: dict[str, list[str]] = {
         "am I still in a waiting period",
         "what treatments are not covered yet because I'm new",
     ],
+    "raise_claim": [
+        "how do I raise a claim",
+        "how to file a claim",
+        "what are the steps to submit a claim",
+        "how do I get reimbursed for a bill I paid",
+        "what documents do I need to make a claim",
+        "how do I make a cashless claim at the hospital",
+        "where is the claim form",
+        "I paid out of pocket, how do I get the money back",
+    ],
     "general_question": [
         "what is prior approval",
         "do I need a referral to see a specialist",

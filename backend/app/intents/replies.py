@@ -11,11 +11,12 @@ PRIOR = QuickReply(label="What is prior approval?", intent="prior")
 REFERRAL = QuickReply(label="Do I need a referral?", intent="referral")
 COUNTS = QuickReply(label="What counts toward it?", intent="counts")
 CLAIMS_HOWTO = QuickReply(label="How long do claims take?", intent="claims_howto")
+RAISE_CLAIM = QuickReply(label="How do I raise a claim?", intent="raise_claim")
 PERSON = QuickReply(label="Talk to a person", intent="handoff")
 MORE = QuickReply(label="Ask something else", intent="menu")
 
 MAIN = [MRI, DEDUCTIBLE, CLAIMS, PREMIUM, PERSON]
-BEFORE_LOGIN = [PRIOR, REFERRAL]
+BEFORE_LOGIN = [PRIOR, REFERRAL, RAISE_CLAIM]
 
 # Quick-reply intents that are general questions → answered from plan docs (RAG).
 GENERAL_QUESTIONS = {
