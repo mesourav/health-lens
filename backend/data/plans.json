@@ -1,0 +1,99 @@
+{
+  "_comment": "FAKE demo plans. Each coverage key lists aliases used to match what the customer asked about.",
+  "plans": {
+    "silver_ppo": {
+      "name": "Silver PPO",
+      "coverage": {
+        "mri": {
+          "aliases": ["mri", "scan", "imaging", "ct", "x-ray", "xray"],
+          "label": "MRI and advanced imaging",
+          "covered": true,
+          "cost": "20% coinsurance after your deductible at an in-network imaging center",
+          "prior_approval": true
+        },
+        "therapy": {
+          "aliases": ["therapy", "therapist", "mental", "counseling", "counselling", "psych"],
+          "label": "Therapy and mental health visits",
+          "covered": true,
+          "cost": "$30 copay per in-network visit, no session limit (video visits cost the same)",
+          "prior_approval": false
+        },
+        "specialist": {
+          "aliases": ["specialist", "dermatolog", "cardiolog", "orthoped"],
+          "label": "Specialist visits",
+          "covered": true,
+          "cost": "$50 copay in-network, no referral needed",
+          "prior_approval": false
+        },
+        "physical_therapy": {
+          "aliases": ["physical therapy", "physio", "physiotherapy", "rehab"],
+          "label": "Physical therapy",
+          "covered": true,
+          "cost": "$40 copay per visit, up to 30 visits a year",
+          "prior_approval": false
+        },
+        "preventive": {
+          "aliases": ["preventive", "physical", "checkup", "check-up", "annual", "vaccine", "screening"],
+          "label": "Preventive care",
+          "covered": true,
+          "cost": "Free in-network ($0), does not count toward your deductible",
+          "prior_approval": false
+        },
+        "cosmetic": {
+          "aliases": ["cosmetic", "botox", "tummy tuck", "liposuction"],
+          "label": "Cosmetic procedures",
+          "covered": false,
+          "cost": "Not covered unless medically necessary",
+          "prior_approval": false
+        }
+      }
+    },
+    "gold_ppo": {
+      "name": "Gold PPO",
+      "coverage": {
+        "mri": {
+          "aliases": ["mri", "scan", "imaging", "ct", "x-ray", "xray"],
+          "label": "MRI and advanced imaging",
+          "covered": true,
+          "cost": "10% coinsurance after your deductible at an in-network imaging center",
+          "prior_approval": true
+        },
+        "therapy": {
+          "aliases": ["therapy", "therapist", "mental", "counseling", "counselling", "psych"],
+          "label": "Therapy and mental health visits",
+          "covered": true,
+          "cost": "$15 copay per in-network visit, no session limit",
+          "prior_approval": false
+        },
+        "specialist": {
+          "aliases": ["specialist", "dermatolog", "cardiolog", "orthoped"],
+          "label": "Specialist visits",
+          "covered": true,
+          "cost": "$30 copay in-network, no referral needed",
+          "prior_approval": false
+        },
+        "physical_therapy": {
+          "aliases": ["physical therapy", "physio", "physiotherapy", "rehab"],
+          "label": "Physical therapy",
+          "covered": true,
+          "cost": "$20 copay per visit, up to 45 visits a year",
+          "prior_approval": false
+        },
+        "preventive": {
+          "aliases": ["preventive", "physical", "checkup", "check-up", "annual", "vaccine", "screening"],
+          "label": "Preventive care",
+          "covered": true,
+          "cost": "Free in-network ($0), does not count toward your deductible",
+          "prior_approval": false
+        },
+        "cosmetic": {
+          "aliases": ["cosmetic", "botox", "tummy tuck", "liposuction"],
+          "label": "Cosmetic procedures",
+          "covered": false,
+          "cost": "Not covered unless medically necessary",
+          "prior_approval": false
+        }
+      }
+    }
+  }
+}

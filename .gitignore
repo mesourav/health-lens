@@ -31,3 +31,4 @@ build/
 .mypy_cache/
 .coverage
 htmlcov/
+backend/data/.cache/

@@ -1,0 +1,65 @@
+{
+  "_comment": "FAKE demo data for the prototype. Never put real customer data in this repo.",
+  "policies": [
+    {
+      "policy_number": "HL-100234",
+      "dob": "1988-04-12",
+      "first_name": "Jordan",
+      "plan_id": "silver_ppo",
+      "status": "active",
+      "deductible": { "total": 1500, "used": 860 },
+      "out_of_pocket_max": { "total": 5000, "used": 1240 },
+      "premium": { "monthly": 412.5, "next_due": "2026-12-01", "autopay": true },
+      "claims": [
+        {
+          "id": "CLM-5521",
+          "date": "2026-10-28",
+          "provider": "City Imaging Center",
+          "service": "MRI - knee",
+          "status": "approved",
+          "billed": 1800,
+          "you_owe": 288
+        },
+        {
+          "id": "CLM-5490",
+          "date": "2026-09-14",
+          "provider": "Dr. Patel Dermatology",
+          "service": "Specialist visit",
+          "status": "paid",
+          "billed": 220,
+          "you_owe": 50
+        },
+        {
+          "id": "CLM-5602",
+          "date": "2026-11-10",
+          "provider": "Lakeside Physical Therapy",
+          "service": "Physical therapy (3 sessions)",
+          "status": "in review",
+          "billed": 450,
+          "you_owe": null
+        }
+      ]
+    },
+    {
+      "policy_number": "HL-200871",
+      "dob": "1975-11-30",
+      "first_name": "Priya",
+      "plan_id": "gold_ppo",
+      "status": "active",
+      "deductible": { "total": 500, "used": 500 },
+      "out_of_pocket_max": { "total": 3000, "used": 2150 },
+      "premium": { "monthly": 689.0, "next_due": "2026-12-01", "autopay": false },
+      "claims": [
+        {
+          "id": "CLM-7710",
+          "date": "2026-11-02",
+          "provider": "Riverside Hospital",
+          "service": "Outpatient surgery",
+          "status": "paid",
+          "billed": 9400,
+          "you_owe": 940
+        }
+      ]
+    }
+  ]
+}

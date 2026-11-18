@@ -1,41 +1,44 @@
-# Insurance Chat — Backend
+# Health Lens — Backend
 
 FastAPI service behind the chat UI. Serves `POST /api/chat` (contract in `app/schemas/chat.py`,
-mirrors `frontend/src/features/chat/types.ts`).
+mirrors `frontend/src/features/chat/types.ts`). See the root README to run and deploy.
 
-## Getting started
+## How a message is handled
 
-```powershell
-cd backend
-python -m venv .venv
-.venv\Scripts\Activate.ps1          # macOS/Linux: source .venv/bin/activate
-pip install -e ".[dev]"
-copy .env.example .env
-uvicorn app.main:app --reload --port 8000
+```
+text ──► login check ──► redact ──► classify (our model) ──┬─► personal → tools (policy data, templates)
+                                                           ├─► general  → RAG (plan docs + our model)
+                                                           └─► handoff  → human agent flow
 ```
 
-API docs: http://localhost:8000/docs
-
-Then in `frontend/.env.local` set `VITE_CHAT_API_URL=/api` and run `npm run dev` — Vite proxies
-`/api` to port 8000.
-
-| Command          | What it does |
-| ---------------- | ------------ |
-| `pytest`         | Tests        |
-| `ruff check .`   | Lint         |
-| `ruff format .`  | Format       |
+The model only ever receives **redacted customer text** or **general plan documents**.
+Policy values are added by `app/intents/tools.py` after the model is done.
 
 ## Structure
 
 ```
 app/
-├── main.py              # FastAPI app factory, CORS, mounts /api
-├── core/config.py       # Settings from env / .env
-├── api/
-│   ├── router.py        # Aggregates route modules
-│   └── routes/          # chat.py (POST /chat), health.py (GET /health)
-├── schemas/chat.py      # Pydantic request/response models (camelCase on the wire)
-├── services/            # Business logic (chat_service.respond)
-└── rag/                 # Retrieval + LLM code goes here
-tests/                   # pytest
+├── main.py                  # App, session cookie, /api, serves frontend in Docker
+├── core/config.py           # Settings (env vars / .env)
+├── api/routes/              # chat.py (POST /chat), health.py (GET /health)
+├── schemas/chat.py          # Request/response models (camelCase on the wire)
+├── services/chat_service.py # The conversation engine
+├── privacy/redact.py        # Removes personal details before the model sees text
+├── llm/ollama.py            # Client for OUR model server (no third-party AI)
+├── intents/
+│   ├── classifier.py        # Model → intent (keyword fallback if model is down)
+│   ├── tools.py             # Personal answers from policy data (no AI)
+│   └── replies.py           # Quick-reply chips
+├── policy/repository.py     # ONLY code that reads policy data
+└── rag/
+    ├── index.py             # Load docs → chunks → embeddings → search
+    └── answer.py            # Answer general questions from retrieved chunks
+data/
+├── policies.json            # FAKE customers
+├── plans.json               # FAKE plan coverage tables
+└── docs/*.md                # General plan documents (indexed for RAG)
+tests/                       # pytest (run without a model)
 ```
+
+Settings you may change in `backend/.env`: `OLLAMA_URL`, `CHAT_MODEL`, `EMBED_MODEL`,
+`SESSION_SECRET`.

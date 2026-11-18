@@ -8,8 +8,8 @@ interface ModeCopy {
 
 export const CHAT_COPY: Record<ChatMode, ModeCopy> = {
   bot: {
-    title: 'Meridian Help',
-    subtitle: 'Answers based on your Silver PPO plan',
+    title: 'Health Lens',
+    subtitle: 'Answers based on your plan',
     placeholder: 'Ask about your coverage…',
   },
   agent: {
