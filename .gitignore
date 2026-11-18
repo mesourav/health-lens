@@ -1,0 +1,33 @@
+# --- OS / editors ---
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+.idea
+
+# --- Env files (anywhere) ---
+.env
+.env.*
+!.env.example
+
+# --- Frontend (Node) ---
+node_modules/
+.vite/
+dist/
+coverage/
+*.tsbuildinfo
+*.local
+npm-debug.log*
+
+# --- Backend (Python) ---
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+build/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
