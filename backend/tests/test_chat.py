@@ -89,3 +89,23 @@ def test_handoff_queues_and_agent_joins(client: TestClient) -> None:
     queued = send(client, intent="queue")
     assert queued["followUp"] == {"intent": "agentJoin", "delayMs": 4000}
     assert send(client, intent="agentJoin")["mode"] == "agent"
+
+
+def test_personal_jargon_answers(client: TestClient) -> None:
+    login(client, "HL-200871", "1975-11-30")  # Priya: two riders, an ex gratia claim
+    assert "Dental ($22 a month) and Vision ($9 a month)" in text_of(send(client, text="do I have any riders?"))
+    assert "ex gratia (goodwill) payment of $400" in text_of(send(client, intent="claims"))
+    assert "30-day grace period" in text_of(send(client, intent="premium"))
+
+
+def test_waiting_periods_for_new_member(client: TestClient) -> None:
+    login(client, "HL-300415", "1996-07-08")  # Marcus: new member
+    text = text_of(send(client, text="when does my waiting period end?"))
+    assert "Planned knee or hip replacement" in text
+    assert "Emergency care is always covered" in text
+
+
+def test_jargon_definition_needs_no_login(client: TestClient) -> None:
+    text = text_of(send(client, text="What is a rider?"))
+    assert "Insurance Terms Explained" in text
+    assert "policy number" not in text

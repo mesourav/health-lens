@@ -146,6 +146,10 @@ async def _dispatch(c: Classification, session: Session, original_text: str | No
             return tools.premium_due(policy)
         if c.intent == "policy_summary":
             return tools.policy_summary(policy)
+        if c.intent == "riders":
+            return tools.riders(policy)
+        if c.intent == "waiting_period":
+            return tools.waiting_periods(policy)
         if c.intent == "coverage_check":
             turn = tools.coverage_check(policy, c.service, original_text)
             if turn:

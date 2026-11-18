@@ -3,6 +3,8 @@
   "plans": {
     "silver_ppo": {
       "name": "Silver PPO",
+      "grace_period_days": 30,
+      "free_look_days": 15,
       "coverage": {
         "mri": {
           "aliases": [
@@ -138,6 +140,8 @@
     },
     "gold_ppo": {
       "name": "Gold PPO",
+      "grace_period_days": 30,
+      "free_look_days": 15,
       "coverage": {
         "mri": {
           "aliases": [
@@ -273,6 +277,8 @@
     },
     "bronze_ppo": {
       "name": "Bronze PPO",
+      "grace_period_days": 30,
+      "free_look_days": 15,
       "coverage": {
         "mri": {
           "aliases": [

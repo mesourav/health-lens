@@ -3,7 +3,7 @@
 This is the core privacy idea: real values are filled in by code, after (and without) the model.
 """
 
-from datetime import date
+from datetime import date, timedelta
 
 from app.intents import replies as R
 from app.policy.repository import Policy, find_coverage, get_plan
@@ -73,18 +73,23 @@ def claim_status(policy: Policy) -> ChatTurn:
     lines = []
     for c in claims:
         owe = f"you owe {_money(c['you_owe'])}" if c["you_owe"] is not None else "amount not final yet"
-        lines.append(f"• {_date(c['date'])}: {c['service']} at {c['provider']}. {c['status'].capitalize()}, {owe}.")
+        status = c["status"].capitalize()
+        if c.get("ex_gratia"):
+            status += f", but we made an ex gratia (goodwill) payment of {_money(c['ex_gratia'])}"
+        lines.append(f"• {_date(c['date'])}: {c['service']} at {c['provider']}. {status}, {owe}.")
     return _bot("Here are your most recent claims:\n" + "\n".join(lines), [R.CLAIMS_HOWTO, R.MORE, R.PERSON])
 
 
 def premium_due(policy: Policy) -> ChatTurn:
     p = policy["premium"]
+    plan = get_plan(policy["plan_id"])
     text = f"Your monthly premium is {_money(p['monthly'])}, next due on {_date(p['next_due'])}."
     text += (
         " Autopay is on, so it will be paid automatically."
         if p["autopay"]
         else " Autopay is off. You can pay in the member portal or turn on autopay there."
     )
+    text += f" If a payment is ever late, you have a {plan['grace_period_days']}-day grace period to pay it."
     return _bot(text)
 
 
@@ -93,7 +98,37 @@ def policy_summary(policy: Policy) -> ChatTurn:
     ded = policy["deductible"]
     text = (
         f"You're on the {plan['name']} plan, and your policy is {policy['status']}. "
+        f"It started on {_date(policy['start_date'])}. "
         f"Your deductible is {_money(ded['total'])} a year and your out-of-pocket maximum is "
         f"{_money(policy['out_of_pocket_max']['total'])}."
     )
+    free_look_ends = date.fromisoformat(policy["start_date"]) + timedelta(days=plan["free_look_days"])
+    if date.today() < free_look_ends:
+        text += (
+            f" You're still in your {plan['free_look_days']}-day free look period until "
+            f"{_date(free_look_ends.isoformat())}, so you can cancel for a full refund of your premium."
+        )
     return _bot(text, [R.DEDUCTIBLE, R.CLAIMS, R.PERSON])
+
+
+def riders(policy: Policy) -> ChatTurn:
+    items = policy["riders"]
+    if not items:
+        return _bot("You don't have any riders (add-ons) on your policy. Only your main plan's coverage applies.")
+    names = [f"{r['name']} ({_money(r['monthly'])} a month)" for r in items]
+    listed = names[0] if len(names) == 1 else ", ".join(names[:-1]) + " and " + names[-1]
+    noun = "rider" if len(items) == 1 else "riders"
+    return _bot(f"You have {len(items)} {noun} (add-ons) on your policy: {listed}.")
+
+
+def waiting_periods(policy: Policy) -> ChatTurn:
+    today = date.today()
+    active = [w for w in policy["waiting_periods"] if date.fromisoformat(w["ends"]) > today]
+    if not active:
+        return _bot("You don't have any waiting periods, so all of your plan's covered care is available now.")
+    lines = [f"• {w['treatment']}: covered from {_date(w['ends'])}" for w in active]
+    return _bot(
+        "These treatments are still in a waiting period on your policy:\n"
+        + "\n".join(lines)
+        + "\nEmergency care is always covered."
+    )

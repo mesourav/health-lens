@@ -24,8 +24,9 @@ health-lens/
 | `HL-500128` | `2001-09-03` | Silver PPO (Sam) | Therapy and urgent care, a claim pending |
 
 Try: *"How much deductible is left?"*, *"Is a knee MRI covered?"*, *"Show my claims"*,
-*"Are prescriptions covered?"*, *"Is urgent care covered?"*,
-*"What is prior approval?"* (general questions work before login).
+*"Are prescriptions covered?"*, *"Is urgent care covered?"*, *"Do I have any riders?"*,
+*"Am I still in a waiting period?"* (Marcus), *"Show my claims"* (Priya has an ex gratia payment),
+*"What is prior approval?"*, *"What is ex gratia?"* (general questions work before login).
 
 ## Run locally
 

@@ -8,9 +8,27 @@
       "first_name": "Jordan",
       "plan_id": "silver_ppo",
       "status": "active",
-      "deductible": { "total": 1500, "used": 860 },
-      "out_of_pocket_max": { "total": 5000, "used": 1240 },
-      "premium": { "monthly": 412.5, "next_due": "2026-12-01", "autopay": true },
+      "start_date": "2024-01-01",
+      "deductible": {
+        "total": 1500,
+        "used": 860
+      },
+      "out_of_pocket_max": {
+        "total": 5000,
+        "used": 1240
+      },
+      "premium": {
+        "monthly": 412.5,
+        "next_due": "2026-12-01",
+        "autopay": true
+      },
+      "riders": [
+        {
+          "name": "Dental",
+          "monthly": 18
+        }
+      ],
+      "waiting_periods": [],
       "claims": [
         {
           "id": "CLM-5521",
@@ -57,10 +75,42 @@
       "first_name": "Priya",
       "plan_id": "gold_ppo",
       "status": "active",
-      "deductible": { "total": 500, "used": 500 },
-      "out_of_pocket_max": { "total": 3000, "used": 2150 },
-      "premium": { "monthly": 689.0, "next_due": "2026-12-01", "autopay": false },
+      "start_date": "2019-01-01",
+      "deductible": {
+        "total": 500,
+        "used": 500
+      },
+      "out_of_pocket_max": {
+        "total": 3000,
+        "used": 2150
+      },
+      "premium": {
+        "monthly": 689.0,
+        "next_due": "2026-12-01",
+        "autopay": false
+      },
+      "riders": [
+        {
+          "name": "Dental",
+          "monthly": 22
+        },
+        {
+          "name": "Vision",
+          "monthly": 9
+        }
+      ],
+      "waiting_periods": [],
       "claims": [
+        {
+          "id": "CLM-7792",
+          "date": "2026-11-06",
+          "provider": "Metro Ambulance Service",
+          "service": "Out-of-network ambulance",
+          "status": "denied",
+          "billed": 650,
+          "ex_gratia": 400,
+          "you_owe": 250
+        },
         {
           "id": "CLM-7710",
           "date": "2026-11-02",
@@ -97,9 +147,31 @@
       "first_name": "Marcus",
       "plan_id": "bronze_ppo",
       "status": "active",
-      "deductible": { "total": 6000, "used": 0 },
-      "out_of_pocket_max": { "total": 8500, "used": 0 },
-      "premium": { "monthly": 268.0, "next_due": "2026-12-05", "autopay": false },
+      "start_date": "2026-11-10",
+      "deductible": {
+        "total": 6000,
+        "used": 0
+      },
+      "out_of_pocket_max": {
+        "total": 8500,
+        "used": 0
+      },
+      "premium": {
+        "monthly": 268.0,
+        "next_due": "2026-12-05",
+        "autopay": false
+      },
+      "riders": [],
+      "waiting_periods": [
+        {
+          "treatment": "Planned knee or hip replacement",
+          "ends": "2028-11-10"
+        },
+        {
+          "treatment": "Cataract surgery",
+          "ends": "2027-11-10"
+        }
+      ],
       "claims": []
     },
     {
@@ -109,9 +181,27 @@
       "first_name": "Elena",
       "plan_id": "gold_ppo",
       "status": "active",
-      "deductible": { "total": 500, "used": 500 },
-      "out_of_pocket_max": { "total": 3000, "used": 3000 },
-      "premium": { "monthly": 742.0, "next_due": "2026-12-01", "autopay": true },
+      "start_date": "2015-01-01",
+      "deductible": {
+        "total": 500,
+        "used": 500
+      },
+      "out_of_pocket_max": {
+        "total": 3000,
+        "used": 3000
+      },
+      "premium": {
+        "monthly": 742.0,
+        "next_due": "2026-12-01",
+        "autopay": true
+      },
+      "riders": [
+        {
+          "name": "Vision",
+          "monthly": 9
+        }
+      ],
+      "waiting_periods": [],
       "claims": [
         {
           "id": "CLM-8840",
@@ -158,9 +248,27 @@
       "first_name": "Sam",
       "plan_id": "silver_ppo",
       "status": "active",
-      "deductible": { "total": 1500, "used": 325 },
-      "out_of_pocket_max": { "total": 5000, "used": 445 },
-      "premium": { "monthly": 298.75, "next_due": "2026-12-01", "autopay": true },
+      "start_date": "2025-07-01",
+      "deductible": {
+        "total": 1500,
+        "used": 325
+      },
+      "out_of_pocket_max": {
+        "total": 5000,
+        "used": 445
+      },
+      "premium": {
+        "monthly": 298.75,
+        "next_due": "2026-12-01",
+        "autopay": true
+      },
+      "riders": [],
+      "waiting_periods": [
+        {
+          "treatment": "Planned hernia repair",
+          "ends": "2027-01-01"
+        }
+      ],
       "claims": [
         {
           "id": "CLM-9120",

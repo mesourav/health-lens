@@ -15,7 +15,8 @@ _SYSTEM = """You are a friendly health insurance help assistant.
 Answer the member's question using the plan document excerpts provided.
 Write 2 to 4 short sentences in plain language. Include the specific details from the excerpts
 that answer the question (timeframes, what is covered, what to do next).
-No markdown, no lists, no greetings. Do not add facts that are not in the excerpts."""
+No markdown, no lists, no greetings. Do not add facts that are not in the excerpts.
+Never state a number, number of days, amount or deadline unless it is written in the excerpts."""
 
 _MIN_ANSWER_CHARS = 80  # shorter than this = the small model dropped the details
 

@@ -18,6 +18,8 @@ Intent = Literal[
     "claim_status",  # personal: my claims, bills, what I owe
     "premium_due",  # personal: my premium amount, due date, autopay
     "policy_summary",  # personal: my plan name, status, overview
+    "riders",  # personal: which riders / add-ons I have
+    "waiting_period",  # personal: my waiting periods and when they end
     "general_question",  # general: how insurance/plan rules work (answered from docs via RAG)
     "handoff",  # wants a human
     "greeting",  # hi / thanks / menu
@@ -30,6 +32,8 @@ PERSONAL_INTENTS = {
     "claim_status",
     "premium_due",
     "policy_summary",
+    "riders",
+    "waiting_period",
 }
 
 
@@ -52,6 +56,9 @@ async def classify(redacted_text: str) -> Classification:
 # --- Fallback when the model is unavailable (also keeps tests model-free) ---
 _RULES: list[tuple[re.Pattern[str], Intent]] = [
     (re.compile(r"\b(person|human|agent|someone|representative)\b", re.I), "handoff"),
+    # "my riders" is personal; "what is a rider" falls through to the general rules below.
+    (re.compile(r"\b(my|i have|do i have|have i)\b.*\b(riders?|add-?ons?)\b", re.I), "riders"),
+    (re.compile(r"\b(my|i have|do i have|am i)\b.*\bwaiting periods?\b", re.I), "waiting_period"),
     (re.compile(r"\b(referral|prior|approval|network|appeal|emergency|telehealth)", re.I), "general_question"),
     (re.compile(r"\b(deductible|out[- ]of[- ]pocket|left|remaining)\b", re.I), "deductible_status"),
     (re.compile(r"\b(claims?|bill|billed|owe|eob)\b", re.I), "claim_status"),
