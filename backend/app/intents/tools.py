@@ -34,10 +34,16 @@ def deductible_status(policy: Policy) -> ChatTurn:
             f"this year, so you have {_money(left)} to go."
         )
     oop_left = oop["total"] - oop["used"]
-    second = (
-        f"You've also paid {_money(oop['used'])} toward your {_money(oop['total'])} "
-        f"out-of-pocket maximum ({_money(oop_left)} left). After that, covered in-network care is 100% paid."
-    )
+    if oop_left <= 0:
+        second = (
+            f"You've also reached your {_money(oop['total'])} out-of-pocket maximum, "
+            "so covered in-network care is now 100% paid for the rest of the year."
+        )
+    else:
+        second = (
+            f"You've also paid {_money(oop['used'])} toward your {_money(oop['total'])} "
+            f"out-of-pocket maximum ({_money(oop_left)} left). After that, covered in-network care is 100% paid."
+        )
     return _bot(f"{first} {second}", [R.COUNTS, R.MORE, R.PERSON])
 
 

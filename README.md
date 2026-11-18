@@ -15,12 +15,16 @@ health-lens/
 
 ## Demo accounts (fake data)
 
-| Policy number | Date of birth | Plan |
-|---|---|---|
-| `HL-100234` | `1988-04-12` | Silver PPO (Jordan) |
-| `HL-200871` | `1975-11-30` | Gold PPO (Priya) |
+| Policy number | Date of birth | Plan | What this account shows |
+|---|---|---|---|
+| `HL-100234` | `1988-04-12` | Silver PPO (Jordan) | Mid-year, deductible partly used, a claim in review |
+| `HL-200871` | `1975-11-30` | Gold PPO (Priya) | Deductible met, autopay off |
+| `HL-300415` | `1996-07-08` | Bronze PPO (Marcus) | New member, nothing used, no claims yet |
+| `HL-400562` | `1962-02-19` | Gold PPO (Elena) | Out-of-pocket max reached, a denied claim |
+| `HL-500128` | `2001-09-03` | Silver PPO (Sam) | Therapy and urgent care, a claim pending |
 
 Try: *"How much deductible is left?"*, *"Is a knee MRI covered?"*, *"Show my claims"*,
+*"Are prescriptions covered?"*, *"Is urgent care covered?"*,
 *"What is prior approval?"* (general questions work before login).
 
 ## Run locally

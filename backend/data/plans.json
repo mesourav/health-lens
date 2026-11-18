@@ -5,45 +5,133 @@
       "name": "Silver PPO",
       "coverage": {
         "mri": {
-          "aliases": ["mri", "scan", "imaging", "ct", "x-ray", "xray"],
+          "aliases": [
+            "mri",
+            "scan",
+            "imaging",
+            "ct",
+            "x-ray",
+            "xray"
+          ],
           "label": "MRI and advanced imaging",
           "covered": true,
           "cost": "20% coinsurance after your deductible at an in-network imaging center",
           "prior_approval": true
         },
         "therapy": {
-          "aliases": ["therapy", "therapist", "mental", "counseling", "counselling", "psych"],
+          "aliases": [
+            "therapy",
+            "therapist",
+            "mental",
+            "counseling",
+            "counselling",
+            "psych"
+          ],
           "label": "Therapy and mental health visits",
           "covered": true,
           "cost": "$30 copay per in-network visit, no session limit (video visits cost the same)",
           "prior_approval": false
         },
         "specialist": {
-          "aliases": ["specialist", "dermatolog", "cardiolog", "orthoped"],
+          "aliases": [
+            "specialist",
+            "dermatolog",
+            "cardiolog",
+            "orthoped"
+          ],
           "label": "Specialist visits",
           "covered": true,
           "cost": "$50 copay in-network, no referral needed",
           "prior_approval": false
         },
         "physical_therapy": {
-          "aliases": ["physical therapy", "physio", "physiotherapy", "rehab"],
+          "aliases": [
+            "physical therapy",
+            "physio",
+            "physiotherapy",
+            "rehab"
+          ],
           "label": "Physical therapy",
           "covered": true,
           "cost": "$40 copay per visit, up to 30 visits a year",
           "prior_approval": false
         },
         "preventive": {
-          "aliases": ["preventive", "physical", "checkup", "check-up", "annual", "vaccine", "screening"],
+          "aliases": [
+            "preventive",
+            "physical",
+            "checkup",
+            "check-up",
+            "annual",
+            "vaccine",
+            "screening"
+          ],
           "label": "Preventive care",
           "covered": true,
           "cost": "Free in-network ($0), does not count toward your deductible",
           "prior_approval": false
         },
         "cosmetic": {
-          "aliases": ["cosmetic", "botox", "tummy tuck", "liposuction"],
+          "aliases": [
+            "cosmetic",
+            "botox",
+            "tummy tuck",
+            "liposuction"
+          ],
           "label": "Cosmetic procedures",
           "covered": false,
           "cost": "Not covered unless medically necessary",
+          "prior_approval": false
+        },
+        "urgent_care": {
+          "aliases": [
+            "urgent care",
+            "walk-in",
+            "walk in clinic"
+          ],
+          "label": "Urgent care visits",
+          "covered": true,
+          "cost": "$75 copay per visit",
+          "prior_approval": false
+        },
+        "emergency": {
+          "aliases": [
+            "emergency",
+            "emergency room",
+            "er visit",
+            "ambulance"
+          ],
+          "label": "Emergency room visits",
+          "covered": true,
+          "cost": "$350 copay per visit (waived if you're admitted); in-network rates apply even at out-of-network ERs",
+          "prior_approval": false
+        },
+        "prescriptions": {
+          "aliases": [
+            "prescription",
+            "medication",
+            "medicine",
+            "pharmacy",
+            "drug",
+            "generic"
+          ],
+          "label": "Prescription drugs",
+          "covered": true,
+          "cost": "$15 for generic drugs, $50 for preferred brand drugs (30-day supply)",
+          "prior_approval": false
+        },
+        "maternity": {
+          "aliases": [
+            "maternity",
+            "pregnan",
+            "prenatal",
+            "baby",
+            "delivery",
+            "childbirth"
+          ],
+          "label": "Maternity and newborn care",
+          "covered": true,
+          "cost": "prenatal visits are free; delivery is 20% coinsurance after your deductible",
           "prior_approval": false
         }
       }
@@ -52,45 +140,268 @@
       "name": "Gold PPO",
       "coverage": {
         "mri": {
-          "aliases": ["mri", "scan", "imaging", "ct", "x-ray", "xray"],
+          "aliases": [
+            "mri",
+            "scan",
+            "imaging",
+            "ct",
+            "x-ray",
+            "xray"
+          ],
           "label": "MRI and advanced imaging",
           "covered": true,
           "cost": "10% coinsurance after your deductible at an in-network imaging center",
           "prior_approval": true
         },
         "therapy": {
-          "aliases": ["therapy", "therapist", "mental", "counseling", "counselling", "psych"],
+          "aliases": [
+            "therapy",
+            "therapist",
+            "mental",
+            "counseling",
+            "counselling",
+            "psych"
+          ],
           "label": "Therapy and mental health visits",
           "covered": true,
           "cost": "$15 copay per in-network visit, no session limit",
           "prior_approval": false
         },
         "specialist": {
-          "aliases": ["specialist", "dermatolog", "cardiolog", "orthoped"],
+          "aliases": [
+            "specialist",
+            "dermatolog",
+            "cardiolog",
+            "orthoped"
+          ],
           "label": "Specialist visits",
           "covered": true,
           "cost": "$30 copay in-network, no referral needed",
           "prior_approval": false
         },
         "physical_therapy": {
-          "aliases": ["physical therapy", "physio", "physiotherapy", "rehab"],
+          "aliases": [
+            "physical therapy",
+            "physio",
+            "physiotherapy",
+            "rehab"
+          ],
           "label": "Physical therapy",
           "covered": true,
           "cost": "$20 copay per visit, up to 45 visits a year",
           "prior_approval": false
         },
         "preventive": {
-          "aliases": ["preventive", "physical", "checkup", "check-up", "annual", "vaccine", "screening"],
+          "aliases": [
+            "preventive",
+            "physical",
+            "checkup",
+            "check-up",
+            "annual",
+            "vaccine",
+            "screening"
+          ],
           "label": "Preventive care",
           "covered": true,
           "cost": "Free in-network ($0), does not count toward your deductible",
           "prior_approval": false
         },
         "cosmetic": {
-          "aliases": ["cosmetic", "botox", "tummy tuck", "liposuction"],
+          "aliases": [
+            "cosmetic",
+            "botox",
+            "tummy tuck",
+            "liposuction"
+          ],
           "label": "Cosmetic procedures",
           "covered": false,
           "cost": "Not covered unless medically necessary",
+          "prior_approval": false
+        },
+        "urgent_care": {
+          "aliases": [
+            "urgent care",
+            "walk-in",
+            "walk in clinic"
+          ],
+          "label": "Urgent care visits",
+          "covered": true,
+          "cost": "$40 copay per visit",
+          "prior_approval": false
+        },
+        "emergency": {
+          "aliases": [
+            "emergency",
+            "emergency room",
+            "er visit",
+            "ambulance"
+          ],
+          "label": "Emergency room visits",
+          "covered": true,
+          "cost": "$200 copay per visit (waived if you're admitted); in-network rates apply even at out-of-network ERs",
+          "prior_approval": false
+        },
+        "prescriptions": {
+          "aliases": [
+            "prescription",
+            "medication",
+            "medicine",
+            "pharmacy",
+            "drug",
+            "generic"
+          ],
+          "label": "Prescription drugs",
+          "covered": true,
+          "cost": "$10 for generic drugs, $35 for preferred brand drugs (30-day supply)",
+          "prior_approval": false
+        },
+        "maternity": {
+          "aliases": [
+            "maternity",
+            "pregnan",
+            "prenatal",
+            "baby",
+            "delivery",
+            "childbirth"
+          ],
+          "label": "Maternity and newborn care",
+          "covered": true,
+          "cost": "prenatal visits are free; delivery is 10% coinsurance after your deductible",
+          "prior_approval": false
+        }
+      }
+    },
+    "bronze_ppo": {
+      "name": "Bronze PPO",
+      "coverage": {
+        "mri": {
+          "aliases": [
+            "mri",
+            "scan",
+            "imaging",
+            "ct",
+            "x-ray",
+            "xray"
+          ],
+          "label": "MRI and advanced imaging",
+          "covered": true,
+          "cost": "40% coinsurance after your deductible at an in-network imaging center",
+          "prior_approval": true
+        },
+        "therapy": {
+          "aliases": [
+            "therapy",
+            "therapist",
+            "mental",
+            "counseling",
+            "counselling",
+            "psych"
+          ],
+          "label": "Therapy and mental health visits",
+          "covered": true,
+          "cost": "$60 copay per in-network visit, no session limit (video visits cost the same)",
+          "prior_approval": false
+        },
+        "specialist": {
+          "aliases": [
+            "specialist",
+            "dermatolog",
+            "cardiolog",
+            "orthoped"
+          ],
+          "label": "Specialist visits",
+          "covered": true,
+          "cost": "$90 copay in-network, no referral needed",
+          "prior_approval": false
+        },
+        "physical_therapy": {
+          "aliases": [
+            "physical therapy",
+            "physio",
+            "physiotherapy",
+            "rehab"
+          ],
+          "label": "Physical therapy",
+          "covered": true,
+          "cost": "40% coinsurance after your deductible, up to 20 visits a year",
+          "prior_approval": false
+        },
+        "preventive": {
+          "aliases": [
+            "preventive",
+            "physical",
+            "checkup",
+            "check-up",
+            "annual",
+            "vaccine",
+            "screening"
+          ],
+          "label": "Preventive care",
+          "covered": true,
+          "cost": "Free in-network ($0), does not count toward your deductible",
+          "prior_approval": false
+        },
+        "cosmetic": {
+          "aliases": [
+            "cosmetic",
+            "botox",
+            "tummy tuck",
+            "liposuction"
+          ],
+          "label": "Cosmetic procedures",
+          "covered": false,
+          "cost": "Not covered unless medically necessary",
+          "prior_approval": false
+        },
+        "urgent_care": {
+          "aliases": [
+            "urgent care",
+            "walk-in",
+            "walk in clinic"
+          ],
+          "label": "Urgent care visits",
+          "covered": true,
+          "cost": "$100 copay per visit",
+          "prior_approval": false
+        },
+        "emergency": {
+          "aliases": [
+            "emergency",
+            "emergency room",
+            "er visit",
+            "ambulance"
+          ],
+          "label": "Emergency room visits",
+          "covered": true,
+          "cost": "40% coinsurance after your deductible; in-network rates apply even at out-of-network ERs",
+          "prior_approval": false
+        },
+        "prescriptions": {
+          "aliases": [
+            "prescription",
+            "medication",
+            "medicine",
+            "pharmacy",
+            "drug",
+            "generic"
+          ],
+          "label": "Prescription drugs",
+          "covered": true,
+          "cost": "$25 for generic drugs; brand drugs are 40% after your deductible",
+          "prior_approval": false
+        },
+        "maternity": {
+          "aliases": [
+            "maternity",
+            "pregnan",
+            "prenatal",
+            "baby",
+            "delivery",
+            "childbirth"
+          ],
+          "label": "Maternity and newborn care",
+          "covered": true,
+          "cost": "prenatal visits are free; delivery is 40% coinsurance after your deductible",
           "prior_approval": false
         }
       }
