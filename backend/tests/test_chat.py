@@ -124,3 +124,24 @@ def test_raise_claim_reimbursement_only_when_logged_in(client: TestClient) -> No
     assert "Reimbursement claim" in text and "Cashless claim" not in text
     assert "Itemized bill" in text
     assert "Quote your policy number HL-100234" in text
+
+
+def test_other_insurance_types_are_declined(client: TestClient) -> None:
+    for question in (
+        "Claim vehicle",
+        "how do I renew my car insurance?",
+        "my bike was stolen",
+        "is my flight delay covered?",
+    ):
+        text = text_of(send(client, text=question))
+        assert "only help with Health, Term and Life insurance" in text, question
+        assert "Cashless claim" not in text
+
+
+def test_health_questions_mentioning_other_things_still_answered(client: TestClient) -> None:
+    for question in (
+        "I had a car accident, is my hospital stay covered?",
+        "Is a PET scan covered?",
+        "How do I raise a claim?",
+    ):
+        assert "only help with Health" not in text_of(send(client, text=question)), question

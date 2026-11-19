@@ -10,6 +10,7 @@ from typing import Any
 from app.intents import replies as R
 from app.intents import tools
 from app.intents.classifier import PERSONAL_INTENTS, Classification, classify
+from app.intents.scope import SUPPORTED_LINES, out_of_scope_line
 from app.policy.repository import get_policy, verify
 from app.privacy.redact import redact
 from app.rag.answer import answer_general
@@ -91,6 +92,14 @@ async def _handle_text(text: str, session: Session) -> ChatTurn:
         session["pending_policy"] = match.group(0)
         session["stage"] = "await_dob"
         return _bot("Thanks. For security, please type your date of birth (for example 1990-01-31).")
+
+    if line := out_of_scope_line(text):
+        supported = ", ".join(SUPPORTED_LINES[:-1]) + " and " + SUPPORTED_LINES[-1]
+        return _bot(
+            f"Sorry, I can only help with {supported} insurance, so I can't help with {line} insurance here. "
+            "A member advocate can point you to the right team.",
+            [R.MORE, R.PERSON],
+        )
 
     names = [get_policy(session["policy_id"])["first_name"]] if _is_authed(session) else []
     safe_text = redact(text, names)  # ← only this redacted text is ever sent to the model
